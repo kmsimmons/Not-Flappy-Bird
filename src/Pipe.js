@@ -9,7 +9,7 @@ export default function Pipe(props) {
         const lowerHeight = props.bottomPipeTop;
         const bottomPipeHeight = props.bottomPipeHeight;
 
-        const color = props.isHit ? 'red' : 'blue';
+        const color = props.isHit ? 'red' : 'green';
 
         return (
             <div id="pipe" >

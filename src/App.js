@@ -97,7 +97,7 @@ export default class App extends Component {
     const birdHeight = this.state.birdHeight;
     return (
       <div className="App" >
-        <KeyHandler keyEventName={KEYPRESS} keyValue="s" onKeyHandle={this.moveUp} />
+        <KeyHandler keyEventName={KEYPRESS} keyValue="f" onKeyHandle={this.moveUp} />
         <div style={{ left: left, top: birdHeight, position: 'absolute' }}>
           <Circle r={birdRadius} fill={{ color: '#2409ba' }} stroke={{ color: '#E65243' }} strokeWidth={3} />
         </div>
