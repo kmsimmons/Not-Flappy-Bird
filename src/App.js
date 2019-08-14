@@ -29,7 +29,8 @@ export default class App extends Component {
       gravity: 0.8,
       velocity: 0,
       pipes: this.getInitialPipes(),
-      pipeSpeed: 7
+      pipeSpeed: 7,
+      resetGame: '',
     }
     this.moveUp = this.moveUp.bind(this)
   }
@@ -110,6 +111,7 @@ export default class App extends Component {
 
           return <Pipe key={x} isHit={pipe.isHit} upperPipeHeight={upperPipeHeight} bottomPipeHeight={bottomPipeHeight} x={x} bottomPipeTop={bottomPipeTop} />
         })}
+        <button onClick=''>Reset</button>
       </div>
     );
   }
