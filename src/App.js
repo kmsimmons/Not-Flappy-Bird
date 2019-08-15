@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Circle } from 'react-shapes';
 import KeyHandler, { KEYPRESS } from 'react-key-handler';
 import Pipe from './Pipe';
+import './App.css'
 
 const birdRadius = 20;
 
@@ -29,7 +30,8 @@ export default class App extends Component {
       gravity: 0.8,
       velocity: 0,
       pipes: this.getInitialPipes(),
-      pipeSpeed: 7
+      pipeSpeed: 7,
+      score: 0
     }
     this.moveUp = this.moveUp.bind(this)
   }
@@ -57,10 +59,11 @@ export default class App extends Component {
     const newPipes = this.state.pipes.map(pipe => {
       const newX = pipe.x - this.state.pipeSpeed
       if (newX < 0) {
+        this.state.score++
         return {
           upperPipeHeight: (window.innerHeight / 2) - (Math.random() * 200),
           bottomPipeHeight: (window.innerHeight / 2) - (Math.random() * 200),
-          x: window.innerWidth - 40
+          x: window.innerWidth - 40,
         }
       } else {
         let isHit = false;
@@ -71,7 +74,6 @@ export default class App extends Component {
         if ((hitOnUpperY || hitOnLowerY) && hitOnX) {
           isHit = true
         }
-
         return {
           ...pipe,
           x: newX,
@@ -92,7 +94,7 @@ export default class App extends Component {
     })
   }
 
-  resetGame = () => {
+  resetGame() {
     window.location.reload()
   }
 
@@ -101,20 +103,21 @@ export default class App extends Component {
     const birdHeight = this.state.birdHeight;
     return (
       <div className="App" >
-        <KeyHandler keyEventName={KEYPRESS} keyValue="f" onKeyHandle={this.moveUp} />
-        <div style={{ left: left, top: birdHeight, position: 'absolute' }}>
-          <Circle r={birdRadius} fill={{ color: '#2409ba' }} stroke={{ color: '#E65243' }} strokeWidth={3} />
-        </div>
-        {this.state.pipes.map(pipe => {
-          const upperPipeHeight = pipe.upperPipeHeight;
-          const x = pipe.x;
+          <KeyHandler keyEventName={KEYPRESS} keyValue="f" onKeyHandle={this.moveUp} />
+          <div style={{ left: left, top: birdHeight, position: 'absolute' }}>
+            <Circle r={birdRadius} fill={{ color: '#2409ba' }} stroke={{ color: '#E65243' }} strokeWidth={3} />
+          </div>
+          {this.state.pipes.map(pipe => {
+            const upperPipeHeight = pipe.upperPipeHeight;
+            const x = pipe.x;
 
-          const bottomPipeTop = window.innerHeight - pipe.bottomPipeHeight;
-          const bottomPipeHeight = pipe.bottomPipeHeight;
+            const bottomPipeTop = window.innerHeight - pipe.bottomPipeHeight;
+            const bottomPipeHeight = pipe.bottomPipeHeight;
 
-          return <Pipe key={x} isHit={pipe.isHit} upperPipeHeight={upperPipeHeight} bottomPipeHeight={bottomPipeHeight} x={x} bottomPipeTop={bottomPipeTop} />
-        })}
-        <button onClick={this.resetGame}>Reset</button>
+            return <Pipe key={x} isHit={pipe.isHit} upperPipeHeight={upperPipeHeight} bottomPipeHeight={bottomPipeHeight} x={x} bottomPipeTop={bottomPipeTop} />
+          })}
+          <button className='reset' onClick={this.resetGame}>Reset</button>
+        <h1>Score: {this.state.score}</h1>
       </div>
     );
   }
