@@ -31,7 +31,8 @@ export default class App extends Component {
       velocity: 0,
       pipes: this.getInitialPipes(),
       pipeSpeed: 7,
-      score: 0
+      score: 0,
+      topScore: 0
     }
     this.moveUp = this.moveUp.bind(this)
   }
@@ -60,6 +61,7 @@ export default class App extends Component {
       const newX = pipe.x - this.state.pipeSpeed
       if (newX < 0) {
         this.state.score++
+        this.setState({topScore: this.state.score})
         return {
           upperPipeHeight: (window.innerHeight / 2) - (Math.random() * 200),
           bottomPipeHeight: (window.innerHeight / 2) - (Math.random() * 200),
@@ -103,21 +105,22 @@ export default class App extends Component {
     const birdHeight = this.state.birdHeight;
     return (
       <div className="App" >
-          <KeyHandler keyEventName={KEYPRESS} keyValue="f" onKeyHandle={this.moveUp} />
-          <div style={{ left: left, top: birdHeight, position: 'absolute' }}>
-            <Circle r={birdRadius} fill={{ color: '#2409ba' }} stroke={{ color: '#E65243' }} strokeWidth={3} />
-          </div>
-          {this.state.pipes.map(pipe => {
-            const upperPipeHeight = pipe.upperPipeHeight;
-            const x = pipe.x;
+        <KeyHandler keyEventName={KEYPRESS} keyValue="f" onKeyHandle={this.moveUp} />
+            <div style={{ left: left, top: birdHeight, position: 'absolute' }}>
+              <Circle r={birdRadius} fill={{ color: '#2409ba' }} stroke={{ color: '#E65243' }} strokeWidth={3} />
+            </div>
+            {this.state.pipes.map(pipe => {
+              const upperPipeHeight = pipe.upperPipeHeight;
+              const x = pipe.x;
 
-            const bottomPipeTop = window.innerHeight - pipe.bottomPipeHeight;
-            const bottomPipeHeight = pipe.bottomPipeHeight;
+              const bottomPipeTop = window.innerHeight - pipe.bottomPipeHeight;
+              const bottomPipeHeight = pipe.bottomPipeHeight;
 
-            return <Pipe key={x} isHit={pipe.isHit} upperPipeHeight={upperPipeHeight} bottomPipeHeight={bottomPipeHeight} x={x} bottomPipeTop={bottomPipeTop} />
-          })}
-          <button className='reset' onClick={this.resetGame}>Reset</button>
-        <h1>Score: {this.state.score}</h1>
+              return <Pipe key={x} isHit={pipe.isHit} upperPipeHeight={upperPipeHeight} bottomPipeHeight={bottomPipeHeight} x={x} bottomPipeTop={bottomPipeTop} />
+            })}
+            <button className='reset' onClick={this.resetGame}>Reset</button>
+          <h1>Score: {this.state.score}</h1>
+        <h1>Top Score: {this.state.topScore}</h1>
       </div>
     );
   }
